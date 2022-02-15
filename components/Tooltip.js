@@ -12,4 +12,5 @@ export const Tooltip = styled.div`
   padding: 15px;
   color: gray;
   opacity: 0;
+  z-index: 1;
 `;

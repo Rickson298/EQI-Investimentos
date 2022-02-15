@@ -23,7 +23,7 @@ export function OptionsIndexing({ indexing, setIndexing }) {
       <ChangeSelectedOption
         state={indexing}
         setState={setIndexing}
-        valueOption="fixado"
+        valueOption="ipca"
         label="FIXADO"
         borderRadius="0px 10px 10px 0px"
         width="100px"

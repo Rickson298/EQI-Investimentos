@@ -18,6 +18,9 @@ export const IconTooltip = styled(Icon)`
   &:hover + ${Tooltip} {
     opacity: 1;
   }
+  &:hover + ${Tooltip} {
+    z-index: 9999;
+  }
 `;
 
 export default function InfoLabel({ label, icon, message, ...rest }) {
