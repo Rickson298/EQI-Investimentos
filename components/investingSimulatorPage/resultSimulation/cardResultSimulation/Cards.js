@@ -5,4 +5,6 @@ export const Cards = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 45px;
+  transition: all ease 0.2s;
+  color: ${({ theresData }) => (!theresData ? "lightGray" : "black")};
 `;

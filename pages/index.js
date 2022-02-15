@@ -1,49 +1,57 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AiOutlineInfoCircle } from "react-icons/ai";
+import styled from "styled-components";
 import { Button } from "../components/Button";
 import { SectionContainer } from "../components/investingSimulatorPage/containers/SectionContainer";
 import { SimulatorInvesting } from "../components/investingSimulatorPage/containers/SimulatorInvesting";
+import { CardResultSimulation } from "../components/investingSimulatorPage/resultSimulation/cardResultSimulation/CardResultSimulation";
+import { Cards } from "../components/investingSimulatorPage/resultSimulation/cardResultSimulation/Cards";
 import { ResultSimulation } from "../components/investingSimulatorPage/resultSimulation/ResultSimulation";
 import BoxOptions from "../components/investingSimulatorPage/simulator/boxOptions/BoxOptions";
 import { OptionsEarning } from "../components/investingSimulatorPage/simulator/boxOptions/options/OptionsEarning";
+import { OptionsIndexing } from "../components/investingSimulatorPage/simulator/boxOptions/options/OptionsIndexing";
 import { ContainerButtonsSimulator } from "../components/investingSimulatorPage/simulator/ContainerButtonsSimulator";
 import { Simulator } from "../components/investingSimulatorPage/simulator/ContainerSimulator";
 import { Inputs } from "../components/investingSimulatorPage/simulator/Inputs";
 import { InputSimulation } from "../components/investingSimulatorPage/simulator/InputSimulation";
 import { PageTitle } from "../components/PageTitle";
 import { SectionTitle } from "../components/SectionTitle";
-import styles from "../styles/Home.module.css";
 import { formatValue } from "../utils/formatValue";
 import { useGetApi } from "./api/httpClient";
-import { AiOutlineInfoCircle } from "react-icons/ai";
-import { OptionsIndexing } from "../components/investingSimulatorPage/simulator/boxOptions/options/OptionsIndexing";
-import styled from "styled-components";
-import { Cards } from "../components/investingSimulatorPage/resultSimulation/cardResultSimulation/Cards";
-import { CardResultSimulation } from "../components/investingSimulatorPage/resultSimulation/cardResultSimulation/CardResultSimulation";
 
+export const ContainerTooltip = styled.div`
+  position: relative;
+`;
+export const ContainerPage = styled.div`
+  min-width: 100vw;
+  min-height: 100vh;
+  background: #f0ecec;
+`;
 export default function Home() {
-  const [fetchData, indicadores, loading] = useGetApi();
+  const [fetchIndicadores, indicadores, loading] = useGetApi();
+  const [fetchDataByQuery, simulacoes, loadingSimulacoes] = useGetApi();
+  const [earning, setEarning] = useState("bruto");
+  const [indexing, setIndexing] = useState("pre");
+  let query = `?tipoIndexacao=${indexing}&tipoRendimento=${earning}`;
+  let initialValue = {
+    inicial: "",
+    mensal: "",
+  };
+  const [aportes, setAportes] = useState(initialValue);
+
+  let isValid = !Object.values(aportes).some((item) => !item || isNaN(item));
+
+  function getResultSimulationValue(key) {
+    return simulacoes.length ? `R$ ${simulacoes[0][key]}` : "";
+  }
 
   useEffect(() => {
-    fetchData("/indicadores");
+    fetchIndicadores("/indicadores");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [earning, setEarning] = useState("bruto");
-  const [indexing, setIndexing] = useState("pre");
-
-  let query = `?tipoIndexacao=${indexing}&tipoRendimento=${earning}`;
-
-  const ContainerTooltip = styled.div`
-    position: relative;
-  `;
-  const ContainerPage = styled.div`
-    min-width: 100vw;
-    min-height: 100vh;
-    background: #f0ecec;
-  `;
-
-  console.log(query);
+  console.log(simulacoes);
 
   return (
     <ContainerPage>
@@ -89,8 +97,28 @@ export default function Home() {
             </div>
 
             <Inputs>
-              <InputSimulation label="Aporte Inicial" />
-              <InputSimulation label="Aporte Mensal" />
+              <InputSimulation
+                label="Aporte Inicial"
+                message={"Aporte deve ser um número"}
+                value={aportes.inicial}
+                onChange={(value) =>
+                  setAportes({
+                    ...aportes,
+                    inicial: value,
+                  })
+                }
+              />
+              <InputSimulation
+                value={aportes.mensal}
+                onChange={(value) =>
+                  setAportes({
+                    ...aportes,
+                    mensal: value,
+                  })
+                }
+                message="Aporte deve ser um número"
+                label="Aporte Mensal"
+              />
               <InputSimulation readOnly label="Prazo (em meses)" value="12" />
               <InputSimulation readOnly label="Rentabilidade" value="20%" />
               <InputSimulation
@@ -104,39 +132,54 @@ export default function Home() {
                 value={`${formatValue(indicadores[0]?.valor) || 0}%`}
               />
             </Inputs>
-
             <ContainerButtonsSimulator>
-              <Button border="1px solid black">Limpar Campos</Button>
-              <Button border="none" background="darkGray">
+              <Button
+                onClick={() => setAportes(initialValue)}
+                border="1px solid black"
+              >
+                Limpar Campos
+              </Button>
+              <Button
+                onClick={() =>
+                  isValid && fetchDataByQuery(`/simulacoes${query}`)
+                }
+                border="none"
+                background={isValid ? "#f08c54" : "darkGray"}
+              >
                 Simular
               </Button>
             </ContainerButtonsSimulator>
           </Simulator>
           <ResultSimulation>
-            <SectionTitle>Resultado Simulado</SectionTitle>
-            <Cards>
+            <SectionTitle color={simulacoes.length ? "black" : "lightGray"}>
+              Resultado Simulado
+            </SectionTitle>
+            <Cards theresData={simulacoes.length}>
               <CardResultSimulation
                 label="Valor Final Bruto"
-                valueCard="R$ 120"
+                valueCard={getResultSimulationValue("valorFinalBruto")}
               />
-              <CardResultSimulation label="Alíquota di IR" valueCard="R$ 120" />
+              <CardResultSimulation
+                label="Alíquota di IR"
+                valueCard={getResultSimulationValue("aliquotaIR")}
+              />
               <CardResultSimulation
                 label="Valor Pago em IR"
-                valueCard="R$ 120"
+                valueCard={getResultSimulationValue("valorPagoIR")}
               />
               <CardResultSimulation
                 label="Valor Final Líquido"
                 profit
-                valueCard="R$ 120"
+                valueCard={getResultSimulationValue("valorFinalLiquido")}
               />
               <CardResultSimulation
                 label="Valor Total Investido"
-                valueCard="R$ 120"
+                valueCard={getResultSimulationValue("valorTotalInvestido")}
               />
               <CardResultSimulation
                 label="Ganho Líquido"
                 profit
-                valueCard="R$ 120"
+                valueCard={getResultSimulationValue("ganhoLiquido")}
               />
             </Cards>
           </ResultSimulation>
