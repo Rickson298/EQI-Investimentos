@@ -1,3 +1,3 @@
-export function formatValue(value) {
+export function formatPercentValue(value) {
   return value?.toString().replace(".", ",");
 }
