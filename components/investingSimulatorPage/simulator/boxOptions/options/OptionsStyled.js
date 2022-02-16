@@ -16,4 +16,5 @@ export const OptionStyled = styled.button`
   justify-content: center;
   gap: 2px;
   align-items: center;
+  z-index: 1;
 `;

@@ -11,6 +11,6 @@ export const Tooltip = styled.div`
   max-width: 400px;
   padding: 15px;
   color: gray;
-  display: none;
-  z-index: 999;
+  opacity: 0;
+  z-index: 1;
 `;

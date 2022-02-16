@@ -5,11 +5,13 @@ import styled from "styled-components";
 import { Button } from "../components/Button";
 import { SectionContainer } from "../components/investingSimulatorPage/containers/SectionContainer";
 import { SimulatorInvesting } from "../components/investingSimulatorPage/containers/SimulatorInvesting";
+import { Loader } from "../components/investingSimulatorPage/Loader";
 import { CardResultSimulation } from "../components/investingSimulatorPage/resultSimulation/cardResultSimulation/CardResultSimulation";
 import { Cards } from "../components/investingSimulatorPage/resultSimulation/cardResultSimulation/Cards";
 import { Chart } from "../components/investingSimulatorPage/resultSimulation/chart/Chart";
 import { ResultSimulation } from "../components/investingSimulatorPage/resultSimulation/ResultSimulation";
 import BoxOptions from "../components/investingSimulatorPage/simulator/boxOptions/BoxOptions";
+import { ContainerBox } from "../components/investingSimulatorPage/simulator/boxOptions/ContainerBox";
 import { OptionsEarning } from "../components/investingSimulatorPage/simulator/boxOptions/options/OptionsEarning";
 import { OptionsIndexing } from "../components/investingSimulatorPage/simulator/boxOptions/options/OptionsIndexing";
 import { ContainerButtonsSimulator } from "../components/investingSimulatorPage/simulator/ContainerButtonsSimulator";
@@ -21,14 +23,14 @@ import { SectionTitle } from "../components/SectionTitle";
 import { formatPercentValue } from "../utils/formatValue";
 import { useGetApi } from "./api/httpClient";
 
-export const ContainerTooltip = styled.div`
-  position: relative;
-`;
 export const ContainerPage = styled.div`
   min-width: 100vw;
   min-height: 100vh;
   background: #f0ecec;
+  display: flex;
+  overflow: hidden;
 `;
+
 export default function Home() {
   const [fetchIndicadores, indicadores, loading] = useGetApi();
   const [fetchDataByQuery, simulacoes, loadingSimulacoes] = useGetApi();
@@ -69,36 +71,29 @@ export default function Home() {
         <SectionContainer>
           <Simulator>
             <SectionTitle>Simulador</SectionTitle>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                flexWrap: "wrap",
-              }}
-            >
+            <ContainerBox>
               <BoxOptions
-                icon={<AiOutlineInfoCircle />}
-                label="Rendimento"
                 message=" O rendimento bruto de um investimento é o resultado de uma
                 aplicação financeira sem nenhum tipo de desconto, nem de
                 taxas, nem de impostos. Já o rendimento líquido é esse mesmo
                 resultado, descontando taxas ou impostos."
+                icon={<AiOutlineInfoCircle />}
+                label="Rendimento"
               >
                 <OptionsEarning earning={earning} setEarning={setEarning} />
               </BoxOptions>
-              <ContainerTooltip>
-                <BoxOptions
-                  message="Investimentos com rentabilidade indexada à algum índice tem sua rentabilidade dividida em duas partes: uma parte é pré-fixada, e outra é pós-fixada. Ou seja, uma parte é dada pela variação de algum índice, e outra é algum valor já fixo no dia da aplicação."
-                  icon={<AiOutlineInfoCircle />}
-                  label="Tipo de Indexação"
-                >
-                  <OptionsIndexing
-                    indexing={indexing}
-                    setIndexing={setIndexing}
-                  />
-                </BoxOptions>
-              </ContainerTooltip>
-            </div>
+
+              <BoxOptions
+                message="Investimentos com rentabilidade indexada à algum índice tem sua rentabilidade dividida em duas partes: uma parte é pré-fixada, e outra é pós-fixada. Ou seja, uma parte é dada pela variação de algum índice, e outra é algum valor já fixo no dia da aplicação."
+                icon={<AiOutlineInfoCircle />}
+                label="Tipo de Indexação"
+              >
+                <OptionsIndexing
+                  indexing={indexing}
+                  setIndexing={setIndexing}
+                />
+              </BoxOptions>
+            </ContainerBox>
 
             <Inputs>
               <InputSimulation
@@ -151,6 +146,7 @@ export default function Home() {
                 background={isValid ? "#f08c54" : "darkGray"}
               >
                 Simular
+                {loadingSimulacoes && <Loader />}
               </Button>
             </ContainerButtonsSimulator>
           </Simulator>

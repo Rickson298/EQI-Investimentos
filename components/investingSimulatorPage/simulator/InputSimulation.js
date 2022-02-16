@@ -9,6 +9,10 @@ export const ContainerInput = styled.div`
   margin-bottom: 40px;
   position: relative;
   z-index: 2;
+
+  @media (max-width: 550px) {
+    margin-bottom: 20px;
+  }
 `;
 
 export const InvalidMessage = styled.small`

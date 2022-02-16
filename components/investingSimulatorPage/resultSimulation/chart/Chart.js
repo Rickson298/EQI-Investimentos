@@ -12,6 +12,10 @@ export const ChartStyled = styled.div`
   justify-content: space-between;
   align-items: start;
   color: ${({ color }) => (color ? "black" : "lightGray")};
+  @media (max-width: 760px) {
+    justify-content: start;
+  }
+
   span {
     font-weight: bold;
   }
@@ -22,6 +26,11 @@ export const ChartStyled = styled.div`
     align-items: flex-end;
     height: 100%;
     width: 100%;
+
+    @media (max-width: 760px) {
+      justify-content: center;
+    }
+
     .bars {
       display: flex;
       gap: 10px;
@@ -29,6 +38,12 @@ export const ChartStyled = styled.div`
 
       &:hover small {
         opacity: 1;
+      }
+
+      small {
+        @media (max-width: 760px) {
+          display: none;
+        }
       }
 
       .bar {
@@ -45,6 +60,10 @@ export const ChartStyled = styled.div`
       transform: rotate(-90deg);
       height: max-content;
       margin: auto;
+
+      @media (max-width: 760px) {
+        font-size: 12px;
+      }
     }
     .chartData {
       display: flex;
@@ -65,6 +84,15 @@ export const Legend = styled.div`
   justify-content: center;
   gap: 50px;
   color: ${({ color }) => (color ? "black" : "lightGray")};
+
+  @media (max-width: 760px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 760px) {
+    gap: 10px;
+  }
+
   span {
     display: flex;
     align-items: center;
@@ -85,10 +113,22 @@ export const NoInvestingBar = styled.div`
   color: white;
   cursor: default;
 
+  @media (max-width: 760px) {
+    width: 15px;
+  }
+
+  @media (max-width: 500px) {
+    width: 10px;
+  }
+
   small {
     color: lightGray;
     opacity: 0;
     transition: all ease 0.2s;
+
+    @media (max-width: 760px) {
+      visibility: hidden;
+    }
   }
 `;
 export const InvestingBar = styled.div`
@@ -98,6 +138,14 @@ export const InvestingBar = styled.div`
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
 
+  @media (max-width: 760px) {
+    width: 15px;
+  }
+
+  @media (max-width: 500px) {
+    width: 10px;
+  }
+
   small {
     position: absolute;
     top: -15px;
@@ -105,6 +153,10 @@ export const InvestingBar = styled.div`
     transition: all ease 0.2s;
     color: gray;
     font-size: 12px;
+
+    @media (max-width: 760px) {
+      visibility: hidden;
+    }
   }
 `;
 
