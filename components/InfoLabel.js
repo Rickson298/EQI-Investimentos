@@ -16,10 +16,7 @@ export const ContainerInfoLabel = styled.div`
 
 export const IconTooltip = styled(Icon)`
   &:hover + ${Tooltip} {
-    opacity: 1;
-  }
-  &:hover + ${Tooltip} {
-    z-index: 9999;
+    display: block;
   }
 `;
 

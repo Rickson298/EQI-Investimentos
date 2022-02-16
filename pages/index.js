@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import styled from "styled-components";
 import { Button } from "../components/Button";
@@ -7,6 +7,7 @@ import { SectionContainer } from "../components/investingSimulatorPage/container
 import { SimulatorInvesting } from "../components/investingSimulatorPage/containers/SimulatorInvesting";
 import { CardResultSimulation } from "../components/investingSimulatorPage/resultSimulation/cardResultSimulation/CardResultSimulation";
 import { Cards } from "../components/investingSimulatorPage/resultSimulation/cardResultSimulation/Cards";
+import { Chart } from "../components/investingSimulatorPage/resultSimulation/chart/Chart";
 import { ResultSimulation } from "../components/investingSimulatorPage/resultSimulation/ResultSimulation";
 import BoxOptions from "../components/investingSimulatorPage/simulator/boxOptions/BoxOptions";
 import { OptionsEarning } from "../components/investingSimulatorPage/simulator/boxOptions/options/OptionsEarning";
@@ -17,7 +18,7 @@ import { Inputs } from "../components/investingSimulatorPage/simulator/Inputs";
 import { InputSimulation } from "../components/investingSimulatorPage/simulator/InputSimulation";
 import { PageTitle } from "../components/PageTitle";
 import { SectionTitle } from "../components/SectionTitle";
-import { formatValue } from "../utils/formatValue";
+import { formatPercentValue } from "../utils/formatValue";
 import { useGetApi } from "./api/httpClient";
 
 export const ContainerTooltip = styled.div`
@@ -43,7 +44,7 @@ export default function Home() {
   let isValid = !Object.values(aportes).some((item) => !item || isNaN(item));
 
   function getResultSimulationValue(key) {
-    return simulacoes.length ? `R$ ${simulacoes[0][key]}` : "";
+    return simulacoes.length ? `R$ ${simulacoes[0][key].toFixed(2)}` : "";
   }
 
   useEffect(() => {
@@ -51,7 +52,10 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(simulacoes);
+  let graficoComAporte =
+    simulacoes.length && Object.values(simulacoes[0].graficoValores.comAporte);
+  let graficoSemAporte =
+    simulacoes.length && Object.values(simulacoes[0].graficoValores.semAporte);
 
   return (
     <ContainerPage>
@@ -124,12 +128,12 @@ export default function Home() {
               <InputSimulation
                 label="IPCA (ao ano)"
                 readOnly
-                value={`${formatValue(indicadores[1]?.valor) || 0}%`}
+                value={`${formatPercentValue(indicadores[1]?.valor) || 0}%`}
               />
               <InputSimulation
                 readOnly
                 label="CDI (ao ano)"
-                value={`${formatValue(indicadores[0]?.valor) || 0}%`}
+                value={`${formatPercentValue(indicadores[0]?.valor) || 0}%`}
               />
             </Inputs>
             <ContainerButtonsSimulator>
@@ -182,6 +186,15 @@ export default function Home() {
                 valueCard={getResultSimulationValue("ganhoLiquido")}
               />
             </Cards>
+            <Chart
+              noInvestimentData={graficoSemAporte}
+              investimentData={graficoComAporte}
+              sideLegend="LUCRO %"
+              initialValue={1000}
+              legend="Tempo (meses)"
+              investingFooterInformation="Com aporte"
+              noInvestingFooterInformation="Sem aporte"
+            />
           </ResultSimulation>
         </SectionContainer>
       </SimulatorInvesting>
