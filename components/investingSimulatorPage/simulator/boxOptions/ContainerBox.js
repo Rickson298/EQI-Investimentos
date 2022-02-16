@@ -1,13 +1,16 @@
 import styled from "styled-components";
 
-export const Inputs = styled.div`
+export const ContainerBox = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  width: 100%;
 
   @media (max-width: 1420px) {
-    gap: 25px;
     justify-content: start;
+    gap: 15px;
+  }
+
+  @media (max-width: 600px) {
+    gap: 5px;
   }
 `;

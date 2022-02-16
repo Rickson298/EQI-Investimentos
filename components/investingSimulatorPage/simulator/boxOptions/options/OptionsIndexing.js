@@ -2,7 +2,7 @@ import { ChangeSelectedOption } from "./ChangeSelectedOption";
 
 export function OptionsIndexing({ indexing, setIndexing }) {
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", zIndex: "0" }}>
       <ChangeSelectedOption
         state={indexing}
         setState={setIndexing}

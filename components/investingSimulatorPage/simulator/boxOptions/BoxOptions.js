@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   margin-bottom: 20px;
-  z-index: 999;
 `;
 
 function BoxOptions({ icon, label, children, ...rest }) {
