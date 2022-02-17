@@ -16,8 +16,6 @@ This project was created in NextJs for better SEO efficiency
 
 ## Demo
 
-View demo in: https://eqi-investimentos.vercel.app/
-
 ## Getting Started
 
 First, run the development server and json-server :
