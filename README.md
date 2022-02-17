@@ -1,7 +1,16 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Technologies and tools used
-`Next.JS`,`JavaScript`
+
+`ReactJS (with Next.JS)`
+`JavaScript`
+`Styled-Components`
+`ES Lint`
+`Prettier`
+`Axios`
+`React-icons`
+`Jest`
+`Cypress`
 
 ## Demo
 
