@@ -18,6 +18,15 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Teste
+
+```bash
+npm run test
+npm run cypress:open
+# or
+yarn test
+yarn cypress:open
+```
 
 ## Learn More
 
