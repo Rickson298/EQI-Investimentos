@@ -7,6 +7,7 @@ export function OptionsIndexing({ indexing, setIndexing }) {
         state={indexing}
         setState={setIndexing}
         valueOption="pre"
+        data-cy="button-pre"
         label="PRÉ"
         width="80px"
         borderRight="none"
@@ -16,6 +17,7 @@ export function OptionsIndexing({ indexing, setIndexing }) {
         state={indexing}
         setState={setIndexing}
         valueOption="pos"
+        data-cy="button-pos"
         label="POS"
         width="60px"
         borderRight="none"
@@ -23,6 +25,7 @@ export function OptionsIndexing({ indexing, setIndexing }) {
       <ChangeSelectedOption
         state={indexing}
         setState={setIndexing}
+        data-cy="button-ipca"
         valueOption="ipca"
         label="FIXADO"
         borderRadius="0px 10px 10px 0px"
