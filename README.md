@@ -16,6 +16,8 @@ This project was created in NextJs for better SEO efficiency
 
 ## Demo
 
+<img src="https://user-images.githubusercontent.com/88171582/154551239-1e40ffc5-44ca-4c4d-9cfd-85eebd89eddd.gif"/>
+
 ## Getting Started
 
 First, run the development server and json-server :
