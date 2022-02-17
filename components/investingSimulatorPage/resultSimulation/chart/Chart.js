@@ -1,7 +1,7 @@
 import { GiPlainCircle } from "react-icons/gi";
 import styled from "styled-components";
-import { getProfitPercent } from "../../../../utils/getProfitPercent";
-import { heightByProfit } from "../../../../utils/heightByProfit";
+import { getProfitPercent } from "../../../../utils/getProfitPercent/getProfitPercent";
+import { heightByProfit } from "../../../../utils/heightByProfit/heightByProfit";
 
 export const ChartStyled = styled.div`
   box-sizing: border-box;

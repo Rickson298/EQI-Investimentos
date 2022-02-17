@@ -20,7 +20,7 @@ import { Inputs } from "../components/investingSimulatorPage/simulator/Inputs";
 import { InputSimulation } from "../components/investingSimulatorPage/simulator/InputSimulation";
 import { PageTitle } from "../components/PageTitle";
 import { SectionTitle } from "../components/SectionTitle";
-import { formatPercentValue } from "../utils/formatValue";
+import { formatPercentValue } from "../utils/formatPercentValue/formatPercentValue";
 import { useGetApi } from "./api/httpClient";
 
 export const ContainerPage = styled.div`
@@ -100,6 +100,7 @@ export default function Home() {
                 label="Aporte Inicial"
                 message={"Aporte deve ser um número"}
                 value={aportes.inicial}
+                data-cy="input-aporteInicial"
                 onChange={(value) =>
                   setAportes({
                     ...aportes,
@@ -109,6 +110,7 @@ export default function Home() {
               />
               <InputSimulation
                 value={aportes.mensal}
+                data-cy="input-aporteMensal"
                 onChange={(value) =>
                   setAportes({
                     ...aportes,
@@ -118,21 +120,34 @@ export default function Home() {
                 message="Aporte deve ser um número"
                 label="Aporte Mensal"
               />
-              <InputSimulation readOnly label="Prazo (em meses)" value="12" />
-              <InputSimulation readOnly label="Rentabilidade" value="20%" />
+              <InputSimulation
+                readOnly
+                data-cy="input-prazo"
+                label="Prazo (em meses)"
+                value="12"
+              />
+              <InputSimulation
+                readOnly
+                data-cy="input-rentabilidade"
+                label="Rentabilidade"
+                value="20%"
+              />
               <InputSimulation
                 label="IPCA (ao ano)"
                 readOnly
+                data-cy="input-ipca"
                 value={`${formatPercentValue(indicadores[1]?.valor) || 0}%`}
               />
               <InputSimulation
                 readOnly
+                data-cy="input-cdi"
                 label="CDI (ao ano)"
                 value={`${formatPercentValue(indicadores[0]?.valor) || 0}%`}
               />
             </Inputs>
             <ContainerButtonsSimulator>
               <Button
+                data-cy="button-clear"
                 onClick={() => setAportes(initialValue)}
                 border="1px solid black"
               >
@@ -142,6 +157,7 @@ export default function Home() {
                 onClick={() =>
                   isValid && fetchDataByQuery(`/simulacoes${query}`)
                 }
+                data-cy="button-simular"
                 border="none"
                 background={isValid ? "#f08c54" : "darkGray"}
               >
@@ -174,6 +190,7 @@ export default function Home() {
               />
               <CardResultSimulation
                 label="Valor Total Investido"
+                data-cy="card-valorTotalInvestido"
                 valueCard={getResultSimulationValue("valorTotalInvestido")}
               />
               <CardResultSimulation
